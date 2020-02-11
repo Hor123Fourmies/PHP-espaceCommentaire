@@ -1,0 +1,44 @@
+body {
+    font-family:"trebuchet ms",sans-serif;
+    font-size:90%;
+}
+
+#pageComment{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+
+}
+
+#commentLeft{
+
+}
+
+#tableComment{
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+fieldset{
+    width: 800px;
+
+}
+
+label {
+    width: 110px;
+    display: inline-block;
+    vertical-align: top;
+
+
+}
+
+#boutonEnvoyer{
+    font-family:"trebuchet ms",sans-serif;
+}
+
+#retourComment{
+    background: turquoise;
+    width: 800px;
+}
