@@ -63,59 +63,14 @@ $conn->select_db($dbname);
 
     <div id="retourComment">
 
+
 <?php
-
-foreach($conn->query('SELECT COUNT(*) FROM commentaire') as $row) {
-
-    echo "<span id='nbComment'>"."Il y a " . $row['COUNT(*)'] ." commentaires.". "</span>";
-    echo "<br>";
-
-}
-/*
- * Autre façon d'afficher la boucle 'foreach'
-foreach($conn->query('SELECT COUNT(*) as compte FROM commentaire') as $row) {
-
-    echo "<span id='nbComment'>"."Il y a " . $row['compte'] ." commentaires.". "</span>";
-
-}
-*/
-$limite = 7;
-$nbPages = ceil($row['COUNT(*)']/$limite);
-
-if (!isset($_GET['page'])) {
-    $page = 1;
-} else {
-    $page = $_GET['page'];
-}
-
-$this_page_first_result = ($page-1)*$limite;
-
-
-// retrieve selected results from database and display them on page
-$sql='SELECT * FROM commentaire LIMIT ' . $this_page_first_result . ',' .  $limite;
-$result = mysqli_query($conn, $sql);
-
-while($row = mysqli_fetch_array($result)) {
-    echo $row['id'] . ' ' . $row['commentaires']. '<br>';
-}
-
-// display the links to the pages
-for ($page=1;$page<=$nbPages;$page++) {
-    echo '<a href="index.php?page=' . $page . '">' . $page . '</a> ';
-}
-
-
-
-
-
-
-
-
 
 //$sql = "SELECT commentaires, pseudo, date FROM commentaire WHERE 30";
 //$sql = "SELECT commentaires, pseudo, DAY(date) as jour, MONTH(date) as mois, YEAR(date) as annee FROM commentaire WHERE 30";
 
-$sql = "SELECT id, commentaires, pseudo, DATE_FORMAT(date, '%d-%m-%Y') as date FROM commentaire ORDER BY id desc LIMIT $limite";
+
+$sql = "SELECT id, commentaires, pseudo, DATE_FORMAT(date, '%d-%m-%Y') as date FROM commentaire ORDER BY id desc";
 $result = $conn->query($sql);
 echo $conn->error;
 
@@ -142,6 +97,56 @@ while ($row = $result->fetch_assoc()) {
 ?>
 </div>
 </div>
+
+<div>
+    <span style="font-weight: bold">Affichage pagination</span>
+    <?php
+echo "<br>";
+
+    foreach ($conn->query('SELECT COUNT(*) FROM commentaire') as $row) {
+
+        echo "<span id='nbComment'>" . "Il y a " . $row['COUNT(*)'] . " commentaires." . "</span>";
+        echo "<br>";
+
+    }
+    /*
+     * Autre façon d'afficher la boucle 'foreach'
+    foreach($conn->query('SELECT COUNT(*) as compte FROM commentaire') as $row) {
+
+        echo "<span id='nbComment'>"."Il y a " . $row['compte'] ." commentaires.". "</span>";
+
+    }
+    */
+    $limite = 4;
+    $nbPages = ceil($row['COUNT(*)'] / $limite);
+
+    if (!isset($_GET['page'])) {
+        $page = 1;
+    } else {
+        $page = $_GET['page'];
+    }
+
+    $this_page_first_result = ($page - 1) * $limite;
+
+
+    // retrieve selected results from database and display them on page
+    $sql = 'SELECT * FROM commentaire LIMIT ' . $this_page_first_result . ',' . $limite;
+    $result = mysqli_query($conn, $sql);
+
+    while ($row = mysqli_fetch_array($result)) {
+        echo $row['id'] . ' ' . $row['commentaires'] . '<br>';
+    }
+
+    // display the links to the pages
+    for ($page = 1; $page <= $nbPages; $page++) {
+        echo '<a href="index.php?page=' . $page . '">' . $page . '</a> ';
+    }
+
+
+    ?>
+
+</div>
+
 <script src="script.js"></script>
 </body>
 </html>
