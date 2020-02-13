@@ -105,7 +105,7 @@ echo "<br>";
 
     foreach ($conn->query('SELECT COUNT(*) FROM commentaire') as $row) {
 
-        echo "<span id='nbComment'>" . "Il y a " . $row['COUNT(*)'] . " commentaires." . "</span>";
+        echo "<span id='nbComment'>" . "Il y a " . $row['COUNT(*)']. " commentaires." . "</span>";
         echo "<br>";
 
     }
@@ -117,7 +117,7 @@ echo "<br>";
 
     }
     */
-    $limite = 4;
+    $limite = 20;
     $nbPages = ceil($row['COUNT(*)'] / $limite);
 
     if (!isset($_GET['page'])) {
@@ -130,7 +130,7 @@ echo "<br>";
 
 
     // retrieve selected results from database and display them on page
-    $sql = 'SELECT * FROM commentaire LIMIT ' . $this_page_first_result . ',' . $limite;
+    $sql = 'SELECT * FROM commentaire ORDER BY id DESC LIMIT ' . $this_page_first_result . ',' . $limite;
     $result = mysqli_query($conn, $sql);
 
     while ($row = mysqli_fetch_array($result)) {
@@ -139,7 +139,7 @@ echo "<br>";
 
     // display the links to the pages
     for ($page = 1; $page <= $nbPages; $page++) {
-        echo '<a href="index.php?page=' . $page . '">' . $page . '</a> ';
+        echo '<a href="comment.php?page=' . $page . '">' . $page . '</a> ';
     }
 
 
